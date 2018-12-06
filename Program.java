@@ -1,5 +1,5 @@
 import java.sql.*;
-import java.util.concurrent.Timeout;
+import java.util.concurrent.TimeUnit;
 public class Program {
 	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";  
 	static final String DB_URL = "jdbc:mysql://10.0.10.3:3306/javadatabase";
@@ -15,13 +15,13 @@ public class Program {
 		
 		try{
 			TimeUnit.SECONDS.sleep(25);
-		}catch{InterruptedException e}
-			Thread.CurrentThread().interrupt();
+		}catch(InterruptedException e){
+			Thread.currentThread().interrupt();
 		}
 
 		conn = DriverManager.getConnection(DB_URL,USER,PASS);
 		stmt = conn.createStatement();
-		stmt.executeUpdate("DROP TABLE IF EXIST Posts");
+		stmt.executeUpdate("DROP TABLE IF EXISTS Posts");
       		stmt.executeUpdate("CREATE TABLE Posts (id int, name varchar(255), text varchar(255))");
        		stmt.executeUpdate("INSERT INTO Posts (id, name, text) VALUES (1, 'Pierwszy post', 'Tresc posta 1')");
 		stmt.executeUpdate("INSERT INTO Posts (id, name, text) VALUES (2, 'Drugi post', 'Tresc posta 2')");
@@ -37,8 +37,8 @@ public class Program {
          String first = rs.getString("name");
          String last = rs.getString("text");
          System.out.println("ID: " + id);
-         System.out.println(", Nazwa posta: " + first);
-         System.out.println(", Tekst: " + last);
+         System.out.println("Nazwa posta: " + first);
+         System.out.println("Tekst: " + last);
       }
       rs.close();
       stmt.close();
